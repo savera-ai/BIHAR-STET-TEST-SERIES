@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="monday">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bihar STET Paper 2 Chemistry — Daily Practice Test</title>
+<meta name="description" content="Bihar STET Paper 2 Chemistry (Classes 11–12) ke liye roz 30 naye practice questions. Inorganic, Organic aur Physical Chemistry — jawab test ke ant me.">
+<meta name="theme-color" content="#f5e4c4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=Mukta:wght@400;500;600;700&amp;family=Rozha+One&amp;display=swap">
+<link rel="stylesheet" href="styles.css">
+<script>
+/* Weekday theme (Asia/Kolkata, same date source as the daily test in app.js).
+   Runs before paint; Monday is the no-JS default via data-theme on <html>. */
+(function () {
+  try {
+    var weekday = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Kolkata", weekday: "long" }).format(new Date()).toLowerCase();
+    var colours = { monday: "#f5e4c4", tuesday: "#185adb", wednesday: "#812d35", thursday: "#4d52b4", friday: "#315c4c", saturday: "#0e0d15", sunday: "#eb6e9b" };
+    if (colours[weekday]) {
+      document.documentElement.dataset.theme = weekday;
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", colours[weekday]);
+    }
+  } catch (e) { /* keep the default Monday theme */ }
+})();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Seedha test par jao</a>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#" id="brandHome">
+      <span class="brand-mark">ST</span>
+      <span class="brand-text">
+        <strong>Bihar STET Chemistry</strong>
+        <small>Paper 2 &middot; Classes 11&ndash;12 &middot; Daily Practice</small>
+      </span>
+    </a>
+    <nav class="topnav">
+      <button type="button" class="navlink" data-nav="home">Home</button>
+      <button type="button" class="navlink" data-nav="daily">Daily Test</button>
+      <button type="button" class="navlink" data-nav="practice">Subject Practice</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+
+  <!-- ============ HOME ============ -->
+  <section id="view-home">
+    <div class="hero">
+      <p class="eyebrow">Bihar STET &middot; Paper 2 &middot; Chemistry</p>
+      <h1>Aaj ka Daily Test &mdash; 30 Questions</h1>
+      <p class="hero-hindi" lang="hi">रोज़ 30 नए प्रश्न &mdash; अकार्बनिक &middot; कार्बनिक &middot; भौतिक रसायन विज्ञान</p>
+      <p class="hero-sub">Roz naye 30 questions: 10 Inorganic, 10 Organic, 10 Physical. Pehle saare sawal solve karo &mdash; sahi-galat aur explanation test ke <strong>ant me</strong> milega.</p>
+      <div class="hero-actions">
+        <button type="button" class="btn btn-primary btn-lg" id="btnStartDaily">Aaj ka Test Shuru Karo</button>
+        <button type="button" class="btn btn-outline btn-lg" id="btnRandom">Random 30 Questions</button>
+      </div>
+      <p class="hero-meta" id="todayLine">Aaj ki tareekh load ho rahi hai&hellip;</p>
+    </div>
+
+    <div class="grid-3" id="subjectCards">
+      <article class="card subject-card" data-subject="Inorganic">
+        <div class="subject-icon inorganic" aria-hidden="true">In</div>
+        <h2>Inorganic Chemistry</h2>
+        <p class="count"><span data-count="Inorganic">&mdash;</span> questions bank me</p>
+        <p class="card-desc">Atomic Structure, Periodic Properties, Bonding, p-Block, Transition Series, Coordination, Acids&ndash;Bases, Environment.</p>
+        <button type="button" class="btn btn-secondary" data-practice="Inorganic">20 Questions Practice Karo</button>
+      </article>
+      <article class="card subject-card" data-subject="Organic">
+        <div class="subject-icon organic" aria-hidden="true">Or</div>
+        <h2>Organic Chemistry</h2>
+        <p class="count"><span data-count="Organic">&mdash;</span> questions bank me</p>
+        <p class="card-desc">Mechanism, Stereochemistry, Hydrocarbons, Halides, Oxygen &amp; Nitrogen Compounds, Biomolecules, Polymers.</p>
+        <button type="button" class="btn btn-secondary" data-practice="Organic">20 Questions Practice Karo</button>
+      </article>
+      <article class="card subject-card" data-subject="Physical">
+        <div class="subject-icon physical" aria-hidden="true">Ph</div>
+        <h2>Physical Chemistry</h2>
+        <p class="count"><span data-count="Physical">&mdash;</span> questions bank me</p>
+        <p class="card-desc">Gaseous &amp; Solid State, Kinetics, Colligative Properties, Thermodynamics, Equilibrium, Electrochemistry.</p>
+        <button type="button" class="btn btn-secondary" data-practice="Physical">20 Questions Practice Karo</button>
+      </article>
+    </div>
+
+    <div class="grid-2">
+      <section class="card">
+        <h2>Kisi bhi din ka test dohrayein</h2>
+        <p>Practice &mdash; koi bhi din: tareekh chuno, us din ka 30-question set phir se solve karo. Har tareekh ka set fix rehta hai.</p>
+        <div class="date-row">
+          <label for="datePicker">Tareekh chuno</label>
+          <input type="date" id="datePicker">
+          <button type="button" class="btn btn-primary" id="btnByDate">Us Din ka Test Shuru Karo</button>
+        </div>
+      </section>
+      <section class="card">
+        <h2>Tumhara record</h2>
+        <p id="lastScoreLine">Abhi tak koi test is device par complete nahi hua hai.</p>
+        <ul class="history" id="historyList"></ul>
+        <p class="muted small">Record sirf is device ke browser (localStorage) me save hota hai. Koi login ya backend nahi hai.</p>
+      </section>
+    </div>
+
+    <section class="card how">
+      <h2>Kaise kaam karta hai?</h2>
+      <ol>
+        <li><strong>Roz naya set:</strong> har din (Asia/Kolkata tareekh ke hisab se) bank se agle 10 + 10 + 10 questions milte hain. Bank khatm hone par set phir se cycle hota hai.</li>
+        <li><strong>Jawab ant me:</strong> test ke beech me sahi-galat nahi bataya jata. Submit karne par score, accuracy, samay aur har sawal ka explanation milta hai.</li>
+        <li><strong>Palette:</strong> right side ki palette se kisi bhi sawal par ja sakte ho, aur sawal ko review ke liye mark kar sakte ho.</li>
+        <li><strong>45 minute:</strong> daily test ke liye 45 minute ka timer hota hai; samay khatm hone par test khud submit ho jata hai.</li>
+      </ol>
+      <p class="muted small">Disclaimer: syllabus ki list ko final reliance se pehle official BSEB website par cross-check kar lein. Is site par koi chapter-wise weightage claim nahi kiya gaya hai. Ye site Testbook se sambandhit nahi hai; design aur content original hain.</p>
+    </section>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section id="view-quiz" hidden>
+    <div class="quiz-head">
+      <div>
+        <h1 id="quizTitle">Daily Test</h1>
+        <p class="muted" id="quizMeta"></p>
+      </div>
+      <div class="timer-box" aria-live="polite">
+        <span class="timer-label">Bacha hua samay</span>
+        <strong id="timer">45:00</strong>
+      </div>
+    </div>
+
+    <div class="quiz-layout">
+      <div class="quiz-main card">
+        <div class="q-top">
+          <span class="q-num" id="qNum">Question 1 / 30</span>
+          <span class="chip" id="qSubject">Inorganic</span>
+          <span class="chip chip-topic" id="qTopic"></span>
+        </div>
+        <p class="q-text" id="qText"></p>
+        <div class="options" id="options" role="radiogroup" aria-label="Answer options"></div>
+        <div class="q-actions">
+          <button type="button" class="btn btn-outline" id="btnPrev">&larr; Pichhla</button>
+          <button type="button" class="btn btn-outline" id="btnMark">Review ke liye Mark Karo</button>
+          <button type="button" class="btn btn-outline" id="btnClear">Jawab Hatayo</button>
+          <button type="button" class="btn btn-primary" id="btnNext">Agla &rarr;</button>
+        </div>
+        <p class="muted small" id="answeredLine"></p>
+      </div>
+
+      <aside class="card palette-card" aria-label="Question palette">
+        <h2>Question Palette</h2>
+        <div class="legend">
+          <span><i class="dot dot-current"></i> Current</span>
+          <span><i class="dot dot-answered"></i> Answered</span>
+          <span><i class="dot dot-marked"></i> Marked</span>
+          <span><i class="dot dot-empty"></i> Not answered</span>
+        </div>
+        <div class="palette" id="palette"></div>
+        <div class="palette-summary" id="paletteSummary"></div>
+        <button type="button" class="btn btn-success btn-block" id="btnSubmit">Test Submit Karo</button>
+        <button type="button" class="btn btn-outline btn-block" id="btnQuit">Test Chhodo (bina save)</button>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section id="view-result" hidden>
+    <div class="card result-hero">
+      <p class="eyebrow">Test Complete</p>
+      <h1 id="resultScore">0 / 30</h1>
+      <p id="resultSummary"></p>
+      <div class="stat-row" id="statRow"></div>
+      <div class="hero-actions">
+        <button type="button" class="btn btn-primary" id="btnRetry">Wahi Set Phir Se Karo</button>
+        <button type="button" class="btn btn-outline" id="btnNewRandom">Naya Random Test</button>
+        <button type="button" class="btn btn-outline" id="btnHome">Home Jao</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Subject-wise Result</h2>
+      <div id="subjectResult"></div>
+    </div>
+    <div class="card">
+      <h2>Poora Review &mdash; har sawal, sahi jawab aur explanation</h2>
+      <div id="reviewList"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p>Bihar STET Paper 2 Chemistry &mdash; Daily Practice. Koi login nahi, koi backend nahi. Questions <code>questions.json</code> me hain.</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
