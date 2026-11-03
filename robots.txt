@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bihar-stet-test-series-prabhatsatyam420-4112.vercel.app/sitemap.xml

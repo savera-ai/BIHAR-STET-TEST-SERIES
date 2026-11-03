@@ -1,32 +1,42 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bihar STET Paper 2 Chemistry — Daily Practice Test</title>
-<meta name="description" content="Bihar STET Paper 2 Chemistry (Classes 11–12) ke liye roz 30 naye practice questions. Inorganic, Organic aur Physical Chemistry — jawab test ke ant me.">
+<meta name="description" content="Bihar STET Paper 2 Chemistry daily practice test: 30 new questions every day — Inorganic, Organic and Physical Chemistry.">
+<link rel="canonical" href="https://bihar-stet-test-series-prabhatsatyam420-4112.vercel.app/">
 <meta name="theme-color" content="#2b3fe0">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Bihar STET Paper 2 Chemistry — Daily Practice Test",
+  "url": "https://bihar-stet-test-series-prabhatsatyam420-4112.vercel.app/",
+  "inLanguage": "en"
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<a class="skip-link" href="#main">Seedha test par jao</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <header class="topbar">
   <div class="wrap topbar-inner">
-    <a class="brand" href="#" id="brandHome">
+    <button type="button" class="brand" id="brandHome" aria-label="Go home">
       <span class="brand-mark" id="brandMark">ST</span>
       <span class="brand-text">
         <strong id="brandTitle">Bihar STET Chemistry</strong>
         <small id="brandSub">Paper 2 &middot; Classes 11&ndash;12 &middot; Daily Practice</small>
       </span>
-    </a>
-    <div class="exam-switcher" id="examSwitcher" role="group" aria-label="Exam chuno">
-      <button type="button" class="exam-tab active" data-exam-switch="stet" aria-pressed="true">Bihar STET Paper 2 Chemistry</button>
-      <button type="button" class="exam-tab" data-exam-switch="tre40" aria-pressed="false" disabled>BPSC TRE 4.0 Chemistry (Classes 11&ndash;12)</button>
+    </button>
+    <div class="exam-switcher" id="examSwitcher" role="tablist" aria-label="Choose exam">
+      <button type="button" role="tab" id="tab-stet" aria-selected="true" aria-controls="view-home" tabindex="0" class="exam-tab active" data-exam-switch="stet">Bihar STET Paper 2 Chemistry</button>
+      <button type="button" role="tab" id="tab-tre40" aria-selected="false" aria-controls="view-home-tre40" tabindex="-1" class="exam-tab" data-exam-switch="tre40">BPSC TRE 4.0 Chemistry (Classes 11&ndash;12)</button>
     </div>
-    <nav class="topnav">
+    <nav class="topnav" aria-label="Main">
       <button type="button" class="navlink" data-nav="home">Home</button>
       <button type="button" class="navlink" data-nav="daily">Daily Test</button>
       <button type="button" class="navlink" data-nav="practice">Subject Practice</button>
@@ -34,179 +44,261 @@
   </div>
 </header>
 
-<main class="wrap" id="main">
+<main class="wrap" id="main" tabindex="-1">
+<noscript><p class="noscript-line">This practice test needs JavaScript. Please enable JavaScript to start today's 30-question Bihar STET Paper 2 Chemistry test.</p></noscript>
+<p class="visually-hidden" aria-live="polite" id="statusAnnounce"></p>
+<p class="visually-hidden" aria-live="polite" id="timerAnnounce"></p>
+<div class="load-notice" id="loadNotice" hidden>
+  <p id="loadNoticeText"></p>
+  <button type="button" class="btn btn-outline" id="btnRetryBanks">Retry Loading Questions</button>
+</div>
 
   <!-- ============ HOME: STET ============ -->
-  <section id="view-home">
+  <section id="view-home" aria-labelledby="stetHeroTitle">
+    <p class="group-label">Today&rsquo;s Daily Test &middot; 1 test &middot; Free</p>
     <div class="hero">
       <p class="eyebrow">Bihar STET &middot; Paper 2 &middot; Chemistry</p>
-      <h1>Aaj ka Daily Test &mdash; 30 Questions</h1>
-      <p class="hero-hindi" lang="hi">रोज़ 30 नए प्रश्न &mdash; अकार्बनिक &middot; कार्बनिक &middot; भौतिक रसायन विज्ञान</p>
-      <p class="hero-sub">Roz naye 30 questions: 10 Inorganic, 10 Organic, 10 Physical. Pehle saare sawal solve karo &mdash; sahi-galat aur explanation test ke <strong>ant me</strong> milega.</p>
+      <h1 id="stetHeroTitle" tabindex="-1">Bihar STET Paper 2 Chemistry &mdash; Today&rsquo;s Daily Test: 30 Questions</h1>
+      <p class="hero-tagline">30 new questions every day &mdash; Inorganic &middot; Organic &middot; Physical Chemistry</p>
+      <p class="hero-sub">Solve all the questions first &mdash; correct/incorrect answers and explanations are given at the <strong>end</strong> of the test.</p>
+      <p class="test-meta"><span class="meta-item">30 questions</span><span class="meta-item">Inorganic 10 &middot; Organic 10 &middot; Physical 10</span><span class="meta-item">45 minutes</span><span class="badge">Free</span><span class="badge">English</span></p>
       <div class="hero-actions">
-        <button type="button" class="btn btn-primary btn-lg" id="btnStartDaily">Aaj ka Test Shuru Karo</button>
+        <button type="button" class="btn btn-primary btn-lg" id="btnStartDaily">Start Today&rsquo;s Test</button>
         <button type="button" class="btn btn-outline btn-lg" id="btnRandom">Random 30 Questions</button>
       </div>
-      <p class="hero-meta" id="todayLine">Aaj ki tareekh load ho rahi hai&hellip;</p>
+      <p class="hero-meta" id="todayLine">Loading questions&hellip;</p>
+      <p class="load-error" id="stetLoadError" hidden>The STET question bank could not be loaded. <button type="button" class="btn btn-text" id="btnRetryStet">Retry loading</button></p>
     </div>
 
-    <section class="tests" aria-label="Tests">
+    <section aria-labelledby="examChoiceHeadingStet">
       <div class="section-head">
-        <h2>Subject-wise Practice</h2>
-        <p class="muted">Har subject se 20 questions &mdash; din ke hisab se rotate hote hue.</p>
+        <h2 id="examChoiceHeadingStet">Choose Your Exam</h2>
+        <p class="muted">Two practice series. Switch at any time; each exam keeps its own record on this device.</p>
+      </div>
+      <div class="grid-2">
+        <article class="card exam-card" data-exam-card="stet">
+          <h3>Bihar STET Paper 2 Chemistry</h3>
+          <p class="test-meta"><span class="meta-item">30 questions</span><span class="meta-item">Inorganic 10 &middot; Organic 10 &middot; Physical 10</span><span class="meta-item">45 minutes</span><span class="badge">Free</span><span class="badge">English</span></p>
+          <p class="card-desc">Daily practice tests for Classes 11&ndash;12 Chemistry.</p>
+          <button type="button" class="btn btn-outline btn-block" data-exam-goto="stet">View STET Tests</button>
+        </article>
+        <article class="card exam-card" data-exam-card="tre40">
+          <h3>BPSC TRE 4.0 &mdash; Chemistry (Classes 11&ndash;12)</h3>
+          <p class="test-meta"><span class="meta-item">30 questions</span><span class="meta-item">Inorganic 10 &middot; Organic 10 &middot; Physical 10</span><span class="meta-item">45 minutes</span><span class="badge">Free</span><span class="badge">English</span><span class="badge badge-beta">Beta &mdash; syllabus unverified</span></p>
+          <p class="card-desc">Subject (Part III) Chemistry only &mdash; Language and General Studies are not in this bank.</p>
+          <button type="button" class="btn btn-outline btn-block" data-exam-goto="tre40">View TRE 4.0 Tests</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="tests" aria-label="Subject practice tests">
+      <div class="section-head">
+        <h2>Subject Practice</h2>
+        <p class="muted">3 practice tests &middot; 20 questions each &mdash; rotating by day.</p>
       </div>
       <div class="grid-3" id="subjectCards">
         <article class="card subject-card" data-subject="Inorganic">
-          <div class="subject-icon inorganic" aria-hidden="true">In</div>
+          <div class="subject-icon" aria-hidden="true">In</div>
           <h3>Inorganic Chemistry</h3>
-          <p class="count"><span data-count="Inorganic">&mdash;</span> questions bank me</p>
+          <p class="test-meta"><span class="meta-item">20 questions</span><span class="meta-item">30 minutes</span><span class="badge">Free</span></p>
+          <p class="count"><span data-count="Inorganic">&mdash;</span> questions in the bank</p>
           <p class="card-desc">Atomic Structure, Periodic Properties, Bonding, p-Block, Transition Series, Coordination, Acids&ndash;Bases, Environment.</p>
-          <button type="button" class="btn btn-outline btn-block" data-practice="Inorganic">20 Questions Practice Karo</button>
+          <button type="button" class="btn btn-outline btn-block" data-practice="Inorganic">Practice 20 Questions</button>
         </article>
         <article class="card subject-card" data-subject="Organic">
-          <div class="subject-icon organic" aria-hidden="true">Or</div>
+          <div class="subject-icon" aria-hidden="true">Or</div>
           <h3>Organic Chemistry</h3>
-          <p class="count"><span data-count="Organic">&mdash;</span> questions bank me</p>
+          <p class="test-meta"><span class="meta-item">20 questions</span><span class="meta-item">30 minutes</span><span class="badge">Free</span></p>
+          <p class="count"><span data-count="Organic">&mdash;</span> questions in the bank</p>
           <p class="card-desc">Mechanism, Stereochemistry, Hydrocarbons, Halides, Oxygen &amp; Nitrogen Compounds, Biomolecules, Polymers.</p>
-          <button type="button" class="btn btn-outline btn-block" data-practice="Organic">20 Questions Practice Karo</button>
+          <button type="button" class="btn btn-outline btn-block" data-practice="Organic">Practice 20 Questions</button>
         </article>
         <article class="card subject-card" data-subject="Physical">
-          <div class="subject-icon physical" aria-hidden="true">Ph</div>
+          <div class="subject-icon" aria-hidden="true">Ph</div>
           <h3>Physical Chemistry</h3>
-          <p class="count"><span data-count="Physical">&mdash;</span> questions bank me</p>
+          <p class="test-meta"><span class="meta-item">20 questions</span><span class="meta-item">30 minutes</span><span class="badge">Free</span></p>
+          <p class="count"><span data-count="Physical">&mdash;</span> questions in the bank</p>
           <p class="card-desc">Gaseous &amp; Solid State, Kinetics, Colligative Properties, Thermodynamics, Equilibrium, Electrochemistry.</p>
-          <button type="button" class="btn btn-outline btn-block" data-practice="Physical">20 Questions Practice Karo</button>
+          <button type="button" class="btn btn-outline btn-block" data-practice="Physical">Practice 20 Questions</button>
         </article>
       </div>
+    </section>
 
+    <section aria-labelledby="prevHeadingStet">
+      <div class="section-head">
+        <h2 id="prevHeadingStet">Previous Days</h2>
+        <p class="muted" id="stetDateCount">1 test for the chosen date &middot; each date&rsquo;s set stays fixed.</p>
+      </div>
       <div class="card date-card">
         <div>
-          <h3>Kisi bhi din ka test dohrayein</h3>
-          <p class="muted">Tareekh chuno, us din ka 30-question set phir se solve karo. Har tareekh ka set fix rehta hai.</p>
+          <h3>Repeat any day&rsquo;s test</h3>
+          <p class="muted">Choose a date and solve that day&rsquo;s 30-question set again. Each date&rsquo;s set stays fixed.</p>
         </div>
         <div class="date-row">
-          <label for="datePicker">Tareekh chuno</label>
-          <input type="date" id="datePicker">
-          <button type="button" class="btn btn-primary" id="btnByDate">Us Din ka Test Shuru Karo</button>
+          <label for="datePicker">Choose a date</label>
+          <input type="date" id="datePicker" aria-describedby="dateHint">
+          <button type="button" class="btn btn-outline" id="btnByDate">Start That Day&rsquo;s Test</button>
         </div>
+        <p class="muted small" id="dateHint">If no date is chosen, today&rsquo;s test will start.</p>
       </div>
     </section>
 
-    <section class="card how" aria-label="Kaise kaam karta hai">
-      <h2>Kaise kaam karta hai?</h2>
+    <section class="card how" aria-label="How it works">
+      <h2>How does it work?</h2>
       <ol class="steps">
-        <li><strong>Roz naya set</strong><span>Har din (Asia/Kolkata tareekh) bank se agle 10 + 10 + 10 questions. Bank khatm hone par set phir se cycle hota hai.</span></li>
-        <li><strong>Jawab ant me</strong><span>Test ke beech me sahi-galat nahi bataya jata. Submit par score, accuracy, samay aur har sawal ka explanation milega.</span></li>
-        <li><strong>Palette aur timer</strong><span>Palette se kisi bhi sawal par jao, review ke liye mark karo. Daily test ke liye 45 minute; samay khatm hone par test khud submit ho jata hai.</span></li>
+        <li><strong>A new set every day</strong><span>Every day (Asia/Kolkata date), the next 10 + 10 + 10 questions from the bank. When the bank is exhausted, the set cycles again.</span></li>
+        <li><strong>Answers at the end</strong><span>Correct/incorrect answers are not shown during the test. On submitting, you will get your score, accuracy, time taken and an explanation for every question.</span></li>
+        <li><strong>Palette and timer</strong><span>Use the palette to go to any question and mark questions for review. Your answer is saved as soon as you select it. The daily test has 45 minutes; when time runs out, the test submits automatically.</span></li>
       </ol>
-      <p class="muted small">Disclaimer: syllabus ki list ko final reliance se pehle official BSEB website par cross-check kar lein. Is site par koi chapter-wise weightage claim nahi kiya gaya hai. Ye site Testbook se sambandhit nahi hai; design aur content original hain.</p>
+      <p class="muted small">Disclaimer: cross-check the syllabus list on the official BSEB website before relying on it. No chapter-wise weightage is claimed on this site. This site is not affiliated with Testbook; the design and content are original.</p>
     </section>
 
-    <section class="card record-strip" aria-label="Tumhara record">
+    <section class="card record-strip" aria-label="Your record">
       <div>
-        <h2>Tumhara record</h2>
-        <p id="lastScoreLine">Abhi tak koi test is device par complete nahi hua hai.</p>
+        <h2>Your record</h2>
+        <p id="lastScoreLine">No test has been completed on this device yet.</p>
       </div>
       <ul class="history" id="historyList"></ul>
-      <p class="muted small">Record sirf is device ke browser (localStorage) me save hota hai. Koi login ya backend nahi hai.</p>
+      <p class="muted small">Your record is saved only in this device&rsquo;s browser (localStorage). There is no login or backend.</p>
     </section>
   </section>
 
   <!-- ============ HOME: TRE 4.0 ============ -->
-  <section id="view-home-tre40" hidden>
+  <section id="view-home-tre40" hidden aria-labelledby="tre40HeroTitle">
+    <p class="group-label">Today&rsquo;s Daily Test &middot; 1 test &middot; Free</p>
     <div class="hero">
       <p class="eyebrow">BPSC TRE 4.0 &middot; Chemistry &middot; Classes 11&ndash;12 &middot; Beta &mdash; syllabus unverified</p>
-      <h1>Aaj ka Daily Test &mdash; 30 Questions</h1>
-      <p class="hero-hindi" lang="hi">रोज़ 30 नए प्रश्न &mdash; अकार्बनिक &middot; कार्बनिक &middot; भौतिक रसायन विज्ञान</p>
-      <p class="hero-sub">Roz naye 30 questions: 10 Inorganic, 10 Organic, 10 Physical. Pehle saare sawal solve karo &mdash; sahi-galat aur explanation test ke <strong>ant me</strong> milega.</p>
-      <p class="hero-scope">Ye section sirf Subject (Part III) Chemistry ki practice ke liye hai &mdash; Language (qualifying) aur General Studies is question bank me nahi hain.</p>
-      <p class="note-box" id="tre40SourceNote">Syllabus map: BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum ke aadhar par banaya gaya fallback hai; TRE 4.0 (Advt. 14/2026) ki detailed notification se verify hona baaki hai. Pattern (Prelims+Mains / negative marking) me badlav sambhav hai.</p>
-      <p class="hero-marking-note">Negative marking &mdash; BPSC final notification se verify hona baaki hai.</p>
+      <h1 id="tre40HeroTitle" tabindex="-1">BPSC TRE 4.0 Chemistry &mdash; Today&rsquo;s Daily Test: 30 Questions</h1>
+      <p class="hero-tagline">30 new questions every day &mdash; Inorganic &middot; Organic &middot; Physical Chemistry</p>
+      <p class="hero-sub">Solve all the questions first &mdash; correct/incorrect answers and explanations are given at the <strong>end</strong> of the test.</p>
+      <p class="hero-scope">This section is for practice of Subject (Part III) Chemistry only &mdash; Language (qualifying) and General Studies are not in this question bank.</p>
+      <p class="note-box" id="tre40SourceNote">Syllabus map: a fallback created from the BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum; it still needs to be verified against the TRE 4.0 (Advt. 14/2026) detailed notification. The pattern (Prelims/Mains / negative marking) may change.</p>
+      <p class="hero-marking-note">Negative marking &mdash; still to be verified from the BPSC final notification.</p>
+      <p class="test-meta"><span class="meta-item">30 questions</span><span class="meta-item">Inorganic 10 &middot; Organic 10 &middot; Physical 10</span><span class="meta-item">45 minutes</span><span class="badge">Free</span><span class="badge">English</span></p>
       <div class="hero-actions">
-        <button type="button" class="btn btn-primary btn-lg" id="btnTre40StartDaily">Aaj ka Test Shuru Karo</button>
+        <button type="button" class="btn btn-primary btn-lg" id="btnTre40StartDaily">Start Today&rsquo;s Test</button>
         <button type="button" class="btn btn-outline btn-lg" id="btnTre40Random">Random 30 Questions</button>
       </div>
-      <p class="hero-meta" id="tre40TodayLine">Aaj ki tareekh load ho rahi hai&hellip;</p>
+      <p class="hero-meta" id="tre40TodayLine">Loading questions&hellip;</p>
+      <p class="load-error" id="tre40LoadError" hidden>The TRE 4.0 question bank could not be loaded. STET tests still work. <button type="button" class="btn btn-text" id="btnRetryTre40">Retry loading</button></p>
     </div>
 
-    <section class="tests" aria-label="Tests">
+    <section aria-labelledby="examChoiceHeadingTre40">
       <div class="section-head">
-        <h2>Subject-wise Practice</h2>
-        <p class="muted">Har subject se 20 questions &mdash; din ke hisab se rotate hote hue.</p>
+        <h2 id="examChoiceHeadingTre40">Choose Your Exam</h2>
+        <p class="muted">Two practice series. Switch at any time; each exam keeps its own record on this device.</p>
+      </div>
+      <div class="grid-2">
+        <article class="card exam-card" data-exam-card="stet">
+          <h3>Bihar STET Paper 2 Chemistry</h3>
+          <p class="test-meta"><span class="meta-item">30 questions</span><span class="meta-item">Inorganic 10 &middot; Organic 10 &middot; Physical 10</span><span class="meta-item">45 minutes</span><span class="badge">Free</span><span class="badge">English</span></p>
+          <p class="card-desc">Daily practice tests for Classes 11&ndash;12 Chemistry.</p>
+          <button type="button" class="btn btn-outline btn-block" data-exam-goto="stet">View STET Tests</button>
+        </article>
+        <article class="card exam-card" data-exam-card="tre40">
+          <h3>BPSC TRE 4.0 &mdash; Chemistry (Classes 11&ndash;12)</h3>
+          <p class="test-meta"><span class="meta-item">30 questions</span><span class="meta-item">Inorganic 10 &middot; Organic 10 &middot; Physical 10</span><span class="meta-item">45 minutes</span><span class="badge">Free</span><span class="badge">English</span><span class="badge badge-beta">Beta &mdash; syllabus unverified</span></p>
+          <p class="card-desc">Subject (Part III) Chemistry only &mdash; Language and General Studies are not in this bank.</p>
+          <button type="button" class="btn btn-outline btn-block" data-exam-goto="tre40">View TRE 4.0 Tests</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="tests" aria-label="Subject practice tests">
+      <div class="section-head">
+        <h2>Subject Practice</h2>
+        <p class="muted">3 practice tests &middot; 20 questions each &mdash; rotating by day.</p>
       </div>
       <div class="grid-3" id="tre40SubjectCards">
         <article class="card subject-card" data-subject="Inorganic">
-          <div class="subject-icon inorganic" aria-hidden="true">In</div>
+          <div class="subject-icon" aria-hidden="true">In</div>
           <h3>Inorganic Chemistry</h3>
-          <p class="count"><span data-count-tre40="Inorganic">&mdash;</span> questions bank me</p>
-          <p class="card-desc">Higher Secondary curriculum, PG standard (reported &mdash; official chapter list unverified). Topics: fallback syllabus label upar dekho.</p>
-          <button type="button" class="btn btn-outline btn-block" data-practice-tre40="Inorganic">20 Questions Practice Karo</button>
+          <p class="test-meta"><span class="meta-item">20 questions</span><span class="meta-item">30 minutes</span><span class="badge">Free</span></p>
+          <p class="count"><span data-count-tre40="Inorganic">&mdash;</span> questions in the bank</p>
+          <p class="card-desc">Higher Secondary curriculum, PG standard (reported &mdash; official chapter list unverified). Topics: see the fallback syllabus note above.</p>
+          <button type="button" class="btn btn-outline btn-block" data-practice-tre40="Inorganic">Practice 20 Questions</button>
         </article>
         <article class="card subject-card" data-subject="Organic">
-          <div class="subject-icon organic" aria-hidden="true">Or</div>
+          <div class="subject-icon" aria-hidden="true">Or</div>
           <h3>Organic Chemistry</h3>
-          <p class="count"><span data-count-tre40="Organic">&mdash;</span> questions bank me</p>
-          <p class="card-desc">Higher Secondary curriculum, PG standard (reported &mdash; official chapter list unverified). Topics: fallback syllabus label upar dekho.</p>
-          <button type="button" class="btn btn-outline btn-block" data-practice-tre40="Organic">20 Questions Practice Karo</button>
+          <p class="test-meta"><span class="meta-item">20 questions</span><span class="meta-item">30 minutes</span><span class="badge">Free</span></p>
+          <p class="count"><span data-count-tre40="Organic">&mdash;</span> questions in the bank</p>
+          <p class="card-desc">Higher Secondary curriculum, PG standard (reported &mdash; official chapter list unverified). Topics: see the fallback syllabus note above.</p>
+          <button type="button" class="btn btn-outline btn-block" data-practice-tre40="Organic">Practice 20 Questions</button>
         </article>
         <article class="card subject-card" data-subject="Physical">
-          <div class="subject-icon physical" aria-hidden="true">Ph</div>
+          <div class="subject-icon" aria-hidden="true">Ph</div>
           <h3>Physical Chemistry</h3>
-          <p class="count"><span data-count-tre40="Physical">&mdash;</span> questions bank me</p>
-          <p class="card-desc">Higher Secondary curriculum, PG standard (reported &mdash; official chapter list unverified). Topics: fallback syllabus label upar dekho.</p>
-          <button type="button" class="btn btn-outline btn-block" data-practice-tre40="Physical">20 Questions Practice Karo</button>
+          <p class="test-meta"><span class="meta-item">20 questions</span><span class="meta-item">30 minutes</span><span class="badge">Free</span></p>
+          <p class="count"><span data-count-tre40="Physical">&mdash;</span> questions in the bank</p>
+          <p class="card-desc">Higher Secondary curriculum, PG standard (reported &mdash; official chapter list unverified). Topics: see the fallback syllabus note above.</p>
+          <button type="button" class="btn btn-outline btn-block" data-practice-tre40="Physical">Practice 20 Questions</button>
         </article>
       </div>
+    </section>
 
+    <section aria-labelledby="prevHeadingTre40">
+      <div class="section-head">
+        <h2 id="prevHeadingTre40">Previous Days</h2>
+        <p class="muted" id="tre40DateCount">1 test for the chosen date &middot; each date&rsquo;s set stays fixed.</p>
+      </div>
       <div class="card date-card">
         <div>
-          <h3>Kisi bhi din ka test dohrayein</h3>
-          <p class="muted">Tareekh chuno, us din ka 30-question set phir se solve karo. Har tareekh ka set fix rehta hai.</p>
+          <h3>Repeat any day&rsquo;s test</h3>
+          <p class="muted">Choose a date and solve that day&rsquo;s 30-question set again. Each date&rsquo;s set stays fixed.</p>
         </div>
         <div class="date-row">
-          <label for="tre40DatePicker">Tareekh chuno</label>
-          <input type="date" id="tre40DatePicker">
-          <button type="button" class="btn btn-primary" id="btnTre40ByDate">Us Din ka Test Shuru Karo</button>
+          <label for="tre40DatePicker">Choose a date</label>
+          <input type="date" id="tre40DatePicker" aria-describedby="tre40DateHint">
+          <button type="button" class="btn btn-outline" id="btnTre40ByDate">Start That Day&rsquo;s Test</button>
         </div>
+        <p class="muted small" id="tre40DateHint">If no date is chosen, today&rsquo;s test will start.</p>
       </div>
     </section>
 
-    <section class="card how" aria-label="Kaise kaam karta hai">
-      <h2>Kaise kaam karta hai?</h2>
-      <p class="note-box">Syllabus map: BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum ke aadhar par banaya gaya fallback hai; TRE 4.0 (Advt. 14/2026) ki detailed notification se verify hona baaki hai. Pattern (Prelims+Mains / negative marking) me badlav sambhav hai.</p>
+    <section class="card how" aria-label="How it works">
+      <h2>How does it work?</h2>
+      <p class="note-box">Syllabus map: a fallback created from the BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum; it still needs to be verified against the TRE 4.0 (Advt. 14/2026) detailed notification. The pattern (Prelims/Mains / negative marking) may change.</p>
       <ol class="steps">
-        <li><strong>Roz naya set</strong><span>Har din (Asia/Kolkata tareekh) bank se agle 10 + 10 + 10 questions. Ye set sirf Subject (Part III) Chemistry ka hai.</span></li>
-        <li><strong>Jawab ant me</strong><span>Test ke beech me sahi-galat nahi bataya jata. Submit par score, accuracy, samay aur har sawal ka explanation milega. Negative marking verify hona baaki hai — tab tak galat jawab par koi negative marking nahi hai.</span></li>
-        <li><strong>Palette aur timer</strong><span>Palette se kisi bhi sawal par jao, review ke liye mark karo. Practice ke liye 45 minute ka timer hota hai; samay khatm hone par test khud submit ho jata hai.</span></li>
+        <li><strong>A new set every day</strong><span>Every day (Asia/Kolkata date), the next 10 + 10 + 10 questions from the bank. This set covers Subject (Part III) Chemistry only.</span></li>
+        <li><strong>Answers at the end</strong><span>Correct/incorrect answers are not shown during the test. On submitting, you will get your score, accuracy, time taken and an explanation for every question. Negative marking is still to be verified &mdash; until then, there is no negative marking for wrong answers.</span></li>
+        <li><strong>Palette and timer</strong><span>Use the palette to go to any question and mark questions for review. Your answer is saved as soon as you select it. Practice tests have a 45-minute timer; when time runs out, the test submits automatically.</span></li>
       </ol>
-      <p class="muted small">Disclaimer: syllabus ki list ko final reliance se pehle official BPSC website par cross-check kar lein. Is site par koi chapter-wise weightage claim nahi kiya gaya hai, aur is section ko "Official BPSC TRE 4.0 syllabus" ke roop me present nahi kiya gaya hai. Ye site Testbook se sambandhit nahi hai; design aur content original hain.</p>
+      <p class="muted small">Disclaimer: cross-check the syllabus list on the official BPSC website before relying on it. No chapter-wise weightage is claimed on this site, and this section is not presented as the &ldquo;Official BPSC TRE 4.0 syllabus&rdquo;. This site is not affiliated with Testbook; the design and content are original.</p>
     </section>
 
-    <section class="card record-strip" aria-label="Tumhara record">
+    <section class="card record-strip" aria-label="Your record">
       <div>
-        <h2>Tumhara record</h2>
-        <p id="tre40LastScoreLine">Abhi tak koi test is device par complete nahi hua hai.</p>
+        <h2>Your record</h2>
+        <p id="tre40LastScoreLine">No test has been completed on this device yet.</p>
       </div>
       <ul class="history" id="tre40HistoryList"></ul>
-      <p class="muted small">Record sirf is device ke browser (localStorage) me save hota hai. Koi login ya backend nahi hai. STET ka record alag save hota hai.</p>
+      <p class="muted small">Your record is saved only in this device&rsquo;s browser (localStorage). There is no login or backend. The STET record is saved separately.</p>
     </section>
   </section>
 
   <!-- ============ QUIZ ============ -->
-  <section id="view-quiz" hidden>
+  <section id="view-quiz" hidden aria-labelledby="quizTitle">
     <div class="quiz-head">
-      <div>
-        <h1 id="quizTitle">Daily Test</h1>
+      <div class="quiz-head-main">
+        <h1 id="quizTitle" tabindex="-1">Daily Test</h1>
         <p class="muted" id="quizMeta"></p>
+        <p class="progress-counts" id="progressCounts"></p>
+        <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progressBar"></div></div>
         <p class="muted small" id="quizExamWrap"><span class="chip chip-exam" id="quizExam"></span></p>
       </div>
-      <div class="timer-box" aria-live="polite">
-        <span class="timer-label">Bacha hua samay</span>
-        <strong id="timer">45:00</strong>
+      <div class="quiz-head-side">
+        <div class="timer-box">
+          <span class="timer-label" id="timerLabel">Time remaining</span>
+          <strong id="timer" role="timer" aria-labelledby="timerLabel" aria-live="off">45:00</strong>
+          <span class="timer-note" id="timerNote">The test submits automatically at zero.</span>
+        </div>
+        <button type="button" class="btn btn-outline btn-palette-toggle" id="btnPaletteToggle" aria-expanded="false" aria-controls="paletteCard">Questions</button>
+        <button type="button" class="btn btn-outline" id="btnSubmitTop">Submit Test</button>
       </div>
     </div>
 
-    <div class="quiz-layout">
+    <div class="quiz-layout" id="quizLayout">
       <div class="quiz-main card">
         <div class="q-top">
           <span class="q-num" id="qNum">Question 1 / 30</span>
@@ -214,61 +306,113 @@
           <span class="chip chip-topic" id="qTopic"></span>
         </div>
         <p class="q-text" id="qText"></p>
-        <div class="options" id="options" role="radiogroup" aria-label="Answer options"></div>
+        <div class="options" id="options" role="group" aria-label="Answer options"></div>
+        <p class="save-rule" id="saveRule">How saving works: your answer is saved as soon as you select it. Going to another question with Previous, Save &amp; Next, or the palette does not lose a selected answer. Clear Response removes it. A marked question still counts if it is answered. Keyboard: arrow keys move between options, 1&ndash;4 select an option, N moves to the next question, F marks a question.</p>
         <div class="q-actions">
-          <button type="button" class="btn btn-outline" id="btnPrev">&larr; Pichhla</button>
-          <button type="button" class="btn btn-outline" id="btnMark">Review ke liye Mark Karo</button>
-          <button type="button" class="btn btn-outline" id="btnClear">Jawab Hatayo</button>
-          <button type="button" class="btn btn-primary" id="btnNext">Agla &rarr;</button>
+          <button type="button" class="btn btn-outline" id="btnPrev"><span aria-hidden="true">&larr; </span>Previous</button>
+          <button type="button" class="btn btn-outline" id="btnMark" aria-pressed="false">Mark for Review</button>
+          <button type="button" class="btn btn-text" id="btnClear">Clear Response</button>
+          <button type="button" class="btn btn-primary" id="btnNext">Save &amp; Next</button>
         </div>
         <p class="muted small" id="answeredLine"></p>
       </div>
 
-      <aside class="card palette-card" aria-label="Question palette">
-        <h2>Question Palette</h2>
-        <div class="legend">
-          <span><i class="dot dot-current"></i> Current</span>
-          <span><i class="dot dot-answered"></i> Answered</span>
-          <span><i class="dot dot-marked"></i> Marked</span>
-          <span><i class="dot dot-empty"></i> Not answered</span>
+      <aside class="card palette-card" id="paletteCard" aria-label="Question palette">
+        <div class="palette-head">
+          <h2>Question Palette</h2>
+          <button type="button" class="btn btn-text palette-collapse" id="btnPaletteCollapse" aria-expanded="true" aria-controls="paletteBody">Hide palette</button>
         </div>
-        <div class="palette" id="palette"></div>
-        <div class="palette-summary" id="paletteSummary"></div>
-        <button type="button" class="btn btn-success btn-block" id="btnSubmit">Test Submit Karo</button>
-        <button type="button" class="btn btn-outline btn-block" id="btnQuit">Test Chhodo (bina save)</button>
+        <div id="paletteBody" class="palette-body">
+          <div class="legend">
+            <span><i class="dot dot-not-visited" aria-hidden="true"></i>Not visited</span>
+            <span><i class="dot dot-visited" aria-hidden="true"></i>Visited, not answered</span>
+            <span><i class="dot dot-answered" aria-hidden="true"></i>Answered <span class="legend-glyph" aria-hidden="true">&#10003;</span></span>
+            <span><i class="dot dot-marked" aria-hidden="true"></i>Marked <span class="legend-glyph" aria-hidden="true">&#9733;</span></span>
+            <span><i class="dot dot-answered-marked" aria-hidden="true"></i>Answered and marked <span class="legend-glyph" aria-hidden="true">&#10003;&#9733;</span></span>
+          </div>
+          <div class="palette" id="palette"></div>
+          <div class="palette-summary" id="paletteSummary"></div>
+        </div>
+        <div class="palette-actions">
+          <button type="button" class="btn btn-primary btn-block" id="btnSubmit">Submit Test</button>
+          <button type="button" class="btn btn-outline btn-block" id="btnQuit">Quit Test (without saving)</button>
+        </div>
       </aside>
     </div>
+    <div class="palette-backdrop" id="paletteBackdrop" hidden></div>
   </section>
 
   <!-- ============ RESULT ============ -->
-  <section id="view-result" hidden>
+  <section id="view-result" hidden aria-labelledby="resultScore">
     <div class="card result-hero">
       <p class="eyebrow">Test Complete</p>
-      <h1 id="resultScore">0 / 30</h1>
+      <h1 id="resultScore" tabindex="-1">0 / 30</h1>
       <p id="resultSummary"></p>
       <div class="stat-row" id="statRow"></div>
+      <p class="muted small" id="accuracyDef">Accuracy = correct &divide; attempted. Attempted means the questions you answered.</p>
       <div class="hero-actions">
-        <button type="button" class="btn btn-primary" id="btnRetry">Wahi Set Phir Se Karo</button>
-        <button type="button" class="btn btn-outline" id="btnNewRandom">Naya Random Test</button>
-        <button type="button" class="btn btn-outline" id="btnHome">Home Jao</button>
+        <button type="button" class="btn btn-primary" id="btnRetry">Retake This Test</button>
+        <button type="button" class="btn btn-outline" id="btnReviewWrong">Review Wrong Answers</button>
+        <button type="button" class="btn btn-outline" id="btnNewRandom">New Random Test</button>
+        <button type="button" class="btn btn-outline" id="btnHome">Back to Tests</button>
       </div>
     </div>
     <div class="card">
       <h2>Subject-wise Result</h2>
       <div id="subjectResult"></div>
+      <p class="muted small" id="subjectCaution">Small samples: a daily test has 10 questions per subject (20 in subject practice), so one question changes a subject&rsquo;s accuracy by about 10 points (5 points in practice). Use the raw counts beside each percentage.</p>
+    </div>
+    <div class="card" id="focusNextCard">
+      <h2>Focus Next</h2>
+      <p id="focusNextText"></p>
+      <div class="hero-actions" id="focusNextActions"></div>
     </div>
     <div class="card">
-      <h2>Poora Review &mdash; har sawal, sahi jawab aur explanation</h2>
+      <h2 id="reviewHeading">Full Review &mdash; every question, the correct answer and explanation</h2>
+      <div class="review-filters" id="reviewFilters" role="group" aria-label="Filter review by result">
+        <button type="button" class="filter-chip" data-filter="all" aria-pressed="true">All <span data-filter-count="all"></span></button>
+        <button type="button" class="filter-chip" data-filter="correct" aria-pressed="false">Correct <span data-filter-count="correct"></span></button>
+        <button type="button" class="filter-chip" data-filter="wrong" aria-pressed="false">Wrong <span data-filter-count="wrong"></span></button>
+        <button type="button" class="filter-chip" data-filter="unattempted" aria-pressed="false">Unattempted <span data-filter-count="unattempted"></span></button>
+      </div>
       <div id="reviewList"></div>
     </div>
+    <div class="card">
+      <h2>Previous Attempts on This Device</h2>
+      <ul class="history" id="resultHistoryList"></ul>
+      <p class="muted small">On this device only. Your record is saved only in this device&rsquo;s browser (localStorage). There is no login or backend.</p>
+    </div>
   </section>
+
+  <!-- ============ CONFIRMATION DIALOGS ============ -->
+  <div class="dialog-backdrop" id="submitDialogBackdrop" hidden>
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="submitDialogTitle" aria-describedby="submitDialogDesc" id="submitDialog">
+      <h2 id="submitDialogTitle">Submit this test?</h2>
+      <p id="submitDialogDesc"></p>
+      <div class="dialog-jump" id="submitDialogJump"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-primary" id="btnDialogBack">Go Back &amp; Review</button>
+        <button type="button" class="btn btn-outline" id="btnDialogSubmit">Submit Anyway</button>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-backdrop" id="quitDialogBackdrop" hidden>
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="quitDialogTitle" aria-describedby="quitDialogDesc" id="quitDialog">
+      <h2 id="quitDialogTitle">Quit this test?</h2>
+      <p id="quitDialogDesc">Your answers will not be saved and your score will not be recorded.</p>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-primary" id="btnQuitDialogStay">Stay in Test</button>
+        <button type="button" class="btn btn-outline" id="btnQuitDialogConfirm">Quit Without Saving</button>
+      </div>
+    </div>
+  </div>
 
 </main>
 
 <footer class="footer">
   <div class="wrap">
-    <p>Bihar STET Paper 2 Chemistry &mdash; Daily Practice. Koi login nahi, koi backend nahi. Questions <code>questions.json</code> me hain.</p>
-    <p>BPSC TRE 4.0 &mdash; Chemistry (Classes 11&ndash;12) &mdash; Daily Practice. Beta &mdash; syllabus unverified. TRE questions <code>tre40-questions-a.json</code> aur <code>tre40-questions-b.json</code> me hain. Sirf Subject (Part III) Chemistry &mdash; Language aur General Studies is bank me nahi hain. Syllabus map: BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum ke aadhar par banaya gaya fallback hai; TRE 4.0 (Advt. 14/2026) ki detailed notification se verify hona baaki hai. Pattern (Prelims+Mains / negative marking) me badlav sambhav hai.</p>
+    <p>Bihar STET Paper 2 Chemistry &mdash; Daily Practice. No login, no backend. Questions are in <code>questions.json</code>.</p>
+    <p>BPSC TRE 4.0 &mdash; Chemistry (Classes 11&ndash;12) &mdash; Daily Practice. Beta &mdash; syllabus unverified. TRE questions are in <code>tre40-questions-a.json</code> and <code>tre40-questions-b.json</code>. Subject (Part III) Chemistry only &mdash; Language and General Studies are not in this bank. Syllabus map: a fallback created from the BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum; it still needs to be verified against the TRE 4.0 (Advt. 14/2026) detailed notification. The pattern (Prelims/Mains / negative marking) may change.</p>
   </div>
 </footer>
 

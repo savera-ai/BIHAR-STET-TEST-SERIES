@@ -1,144 +1,148 @@
 # Bihar STET Paper 2 Chemistry — Daily Practice Website
 
-Static website (koi backend, login ya build step nahi). Roz 30 naye practice
-questions: 10 Inorganic + 10 Organic + 10 Physical. Jawab test ke ant me
-(score, accuracy, subject-wise result aur har sawal ka explanation) milta hai.
+Static website (no backend, login, or build step). 30 new practice
+questions every day: 10 Inorganic + 10 Organic + 10 Physical. Evaluation
+is deferred: answers are revealed only at the end of the test, with the
+score, accuracy, subject-wise results, and an explanation for every
+question.
 
 ## Files
 
-| File | Kaam |
+| File | Purpose |
 |---|---|
-| `index.html` | Home, quiz aur result screens ka structure |
-| `styles.css` | Saari styling — single light premium theme (white/off-white, navy ink, indigo primary; TRE me Royal Plum accent). Google Fonts stylesheet hi ekmatra external resource hai, baaki system fallbacks |
+| `index.html` | Structure of the home, quiz, and result screens |
+| `styles.css` | All styling — single light premium theme (white/off-white, navy ink, indigo primary; Royal Plum accent in TRE). The Google Fonts stylesheet is the only external resource; everything else uses system fallbacks |
 | `app.js` | Quiz logic: daily set, palette, timer, result, localStorage record |
-| `questions.json` | Question bank (STET) — schema neeche dekho |
-| `tre40-questions-a.json` + `tre40-questions-b.json` | Question bank (BPSC TRE 4.0 — Chemistry, Classes 11–12) — wahi schema, subject-only; 105 + 105 = 210 questions (do files me isliye taaki har file Vercel upload limit me rahe) |
+| `questions.json` | Question bank (STET) — see the schema below |
+| `tre40-questions-a.json` + `tre40-questions-b.json` | Question bank (BPSC TRE 4.0 — Chemistry, Classes 11–12) — same schema, subject-only; 105 + 105 = 210 questions (split across two files so that each file stays under the Vercel upload limit) |
 | `vercel.json` | Vercel static hosting config |
 
 ## Design (clean test-series look)
 
-Ek hi light premium theme: white/off-white background, deep navy ink,
-ek indigo primary accent (STET) — TRE exam state me Royal Plum accent.
-Homepage simple hai: ek hero, subject-wise practice cards, date-picker
-card, 3-step "Kaise kaam karta hai" aur ek compact record strip. Fonts:
-Plus Jakarta Sans (UI/headings) + Mukta (Hindi body aur saare
-question/option/explanation text) — Google Fonts, system/Devanagari
-fallbacks ke saath; offline me fallback fonts se site sahi dikhti hai.
-Koi image, watermark ya third-party branding nahi hai.
+A single light premium theme: white/off-white background, deep navy ink,
+one indigo primary accent (STET) — Royal Plum accent in the TRE exam
+state. The homepage is simple: one hero, subject-wise practice cards, a
+date-picker card, a 3-step "How it works" section, and a compact record
+strip. Fonts: Plus Jakarta Sans (UI/headings) + Mukta (body text and all
+question/option/explanation text) — Google Fonts, with system/Devanagari
+fallbacks; with fallback fonts, the site still displays correctly
+offline. There are no images, watermarks, or third-party branding.
 
-## Daily rotation kaise kaam karta hai?
+## How does daily rotation work?
 
-- `app.js` Asia/Kolkata tareekh (aaj) leta hai aur ek fixed epoch
-  (1 January 2026) se din ginata hai.
-- Har subject ki list ko ek circle mana jata hai. Din N par start position
-  (N × 10) mod bank-size hoti hai aur wahan se agle 10 questions liye jate
-  hain (ant par pahunche to list ki shuruaat se wrap hota hai). Is sliding
-  window se har din naya set milta hai, har question lagbhag barabar baar
-  aata hai, aur bank khatm hone par cycle dobara shuru hone ke bajay window
-  aage khisakti rehti hai.
-- Har tareekh ka set deterministic hai: usi tareekh par hamesha wahi set
-  milega, isliye date picker se kisi bhi din ka test dobara solve kar sakte ho.
-- Subject practice: us subject se 20 questions, din ke hisab se rotate hote hue.
-- "Random 30" har baar 10 + 10 + 10 random questions deta hai.
+- `app.js` takes the Asia/Kolkata date (today) and counts days from a
+  fixed epoch (1 January 2026).
+- Each subject's list is treated as a circle. On day N, the start
+  position is (N × 10) mod bank size, and the next 10 questions are taken
+  from there (wrapping to the start of the list on reaching the end).
+  This sliding window gives a new set every day, each question appears
+  roughly equally often, and when the bank ends, the window keeps
+  sliding forward instead of restarting the cycle.
+- Each date's set is deterministic: the same date always gives the same
+  set, so the date picker can be used to re-attempt any day's test.
+- Subject practice: 20 questions from that subject, rotating by day.
+- "Random 30" gives 10 + 10 + 10 random questions each time.
 
-## Naya daily set kaise add karein (koi code change nahi)
+## How to add a new daily set (no code change)
 
-`questions.json` ek JSON array hai. Naye 30 questions add karne ke liye array
-ke ant me same schema wale items append kar do, phir commit + deploy karo:
+`questions.json` is a JSON array. To add 30 new questions, append items
+with the same schema to the end of the array, then commit and deploy:
 
 ```json
 {
-  "q": "Sawal yahan likho? (Hindi + English terms)",
+  "q": "Write the question here?",
   "options": ["Option A", "Option B", "Option C", "Option D"],
   "answer": 0,
-  "explanation": "1-2 line me sahi jawab kyun hai.",
+  "explanation": "Why the correct answer is right, in 1-2 lines.",
   "subject": "Inorganic",
   "topic": "Atomic Structure / Nodes"
 }
 ```
 
-Niyam:
+Rules:
 
-- `options` me hamesha 4 alag-alag options hon.
-- `answer` sahi option ka index hai: 0 = A, 1 = B, 2 = C, 3 = D.
-- `subject` hamesha inme se ek ho: `Inorganic`, `Organic`, `Physical`.
-- Har subject ke kam se kam 10 naye questions add karo taaki daily set
-  balanced (10 + 10 + 10) bana rahe.
-- Duplicate / near-duplicate sawal mat daalo — pehle bank me check kar lo
-  (jaise Graham law, Ksp AB2, XeO3 shape, EAN, G–C hydrogen bonds).
-- Koi invented PYQ year ya chapter weightage claim mat likho.
+- `options` must always contain 4 distinct options.
+- `answer` is the index of the correct option: 0 = A, 1 = B, 2 = C, 3 = D.
+- `subject` must always be one of: `Inorganic`, `Organic`, `Physical`.
+- Add at least 10 new questions for each subject so that the daily set
+  stays balanced (10 + 10 + 10).
+- Do not add duplicate / near-duplicate questions — check the bank first
+  (for example Graham's law, Ksp AB2, XeO3 shape, EAN, G–C hydrogen bonds).
+- Do not write any invented PYQ year or chapter weightage claim.
 
-Site ko phir se deploy karne ki zaroorat nahi hoti — Vercel GitHub push par
-khud redeploy kar deta hai (agar project Git se linked hai).
+The site does not need to be redeployed separately — Vercel redeploys
+automatically on a GitHub push (if the project is linked to Git).
 
-## Local me chalana
+## Running locally
 
-`questions.json` ko `fetch` se load kiya jata hai, isliye file ko seedha
-double-click karke (`file://`) kholne par browser fetch block kar sakta hai.
-Local server se chalao:
+`questions.json` is loaded with `fetch`, so opening the file directly by
+double-clicking it (`file://`) may cause the browser to block the fetch.
+Run it from a local server:
 
 ```bash
 cd stet-quiz-website
 python3 -m http.server 8000
-# phir browser me http://localhost:8000 kholo
+# then open http://localhost:8000 in the browser
 ```
 
-## Vercel par deploy karna (GitHub se)
+## Deploying on Vercel (from GitHub)
 
-1. Is folder ko GitHub repository me push karo.
-2. Vercel dashboard → Add New Project → wahi repository import karo.
-3. Framework preset: **Other** (koi build command nahi, koi output directory
-   nahi — root se static files serve hongi).
-4. Deploy dabao. Har GitHub push par Vercel khud naya deployment bana dega.
+1. Push this folder to a GitHub repository.
+2. Vercel dashboard → Add New Project → import the same repository.
+3. Framework preset: **Other** (no build command, no output directory
+   — static files are served from the root).
+4. Press Deploy. Vercel creates a new deployment on every GitHub push.
 
 ## Disclaimer
 
-Syllabus ki list ko final reliance se pehle official BSEB website par
-cross-check kar lein. Is site par koi chapter-wise weightage claim nahi kiya
-gaya hai. Ye site Testbook se sambandhit nahi hai; design aur content
-original hain.
+Cross-check the syllabus list on the official BSEB website before final
+reliance. No chapter-wise weightage claim is made on this site. This site
+is not affiliated with Testbook; the design and content are original.
 
 ## BPSC TRE 4.0 — Chemistry (Classes 11–12)
 
-Isi site par doosra section hai: **BPSC TRE 4.0 — Chemistry (Classes 11–12)**.
-TRE me "Paper 2 Chemistry" jaisa koi standalone paper nahi hai — Chemistry,
-Main Exam ka Part III (Concerned Subject) hai, sirf Classes 11–12 ke liye.
-Is section ka naam kabhi "Paper 2" nahi rakha jata.
+A second section on the same site: **BPSC TRE 4.0 — Chemistry (Classes 11–12)**.
+There is no standalone paper called "Paper 2 Chemistry" in TRE — Chemistry
+is Part III (Concerned Subject) of the Main Exam, only for Classes 11–12.
+This section is never named "Paper 2".
 
-**Scope — sirf Subject (Part III) Chemistry:** `tre40-questions-a.json` / `tre40-questions-b.json` me
-210 questions hain (Inorganic 70, Organic 70, Physical 70), sirf Subject
-Chemistry ke. Language (qualifying) aur General Studies is bank me nahi
-hain. Roz ka 30-question test (10 + 10 + 10) is bank ka practice subset
-hai — ye poora exam ka full mock nahi hai, aur Language/GS coverage ka
-koi daava nahi karta. Classes 9–10 ka koi standalone Chemistry track is
-site par nahi hai.
+**Scope — subject only (Part III) Chemistry:** `tre40-questions-a.json` /
+`tre40-questions-b.json` contain 210 questions (Inorganic 70, Organic 70,
+Physical 70), for Subject Chemistry only. Language (qualifying) and
+General Studies are not in this bank. The daily 30-question test
+(10 + 10 + 10) is a practice subset of this bank — it is not a full mock
+of the whole exam, and it makes no claim about Language/GS coverage.
+There is no standalone Chemistry track for Classes 9–10 on this site.
 
-**Rotation TRE ke liye bhi wahi hai:** STET wala sliding-window algorithm,
-wahi epoch (1 January 2026), Asia/Kolkata tareekh. 70/70/70 bank ke saath
-daily windows har 7 din me dohrati hain (step 10 mod 70) — ye rotation ka
-sahi natija hai, bug nahi. STET aur TRE ke set ek dusre se aazaad hain.
+**Rotation is the same for TRE:** the STET sliding-window algorithm, the
+same epoch (1 January 2026), and the Asia/Kolkata date. With a 70/70/70
+bank, the daily windows repeat every 7 days (step 10 mod 70) — this is
+the correct result of the rotation, not a bug. The STET and TRE sets are
+independent of each other.
 
-**Syllabus label (fallback — prescribed wording, ek hi wording live hai):**
+**Syllabus label (fallback — prescribed wording, the single wording live):**
 
-> Syllabus map: BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum ke aadhar par banaya gaya fallback hai; TRE 4.0 (Advt. 14/2026) ki detailed notification se verify hona baaki hai. Pattern (Prelims+Mains / negative marking) me badlav sambhav hai.
+> Syllabus map: fallback based on the BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum; still to be verified against the detailed notification for TRE 4.0 (Advt. 14/2026). The pattern (Prelims+Mains / negative marking) may change.
 
-Is section ko "Official BPSC TRE 4.0 syllabus" ke roop me present nahi
-kiya gaya hai. Koi chapter-wise weightage, per-chapter question count,
-PYQ year, exam date ya vacancy claim nahi kiya gaya hai. Negative
-marking — BPSC final notification se verify hona baaki hai.
+This section carries the label "Beta — syllabus unverified". It is not
+presented as the "Official BPSC TRE 4.0 syllabus". No chapter-wise
+weightage, per-chapter question count, PYQ year, exam date, or vacancy
+claim is made. Negative marking — still to be verified against the BPSC
+final notification.
 
-**Scoring configurable hai:** `app.js` me `EXAMS.tre40.negativeMarking`
-default `0` hai (galat jawab par koi negative marking nahi). BPSC ke
-confirm karne par hi is ek value ko `-1/3` kiya jayega — shared scoring
-code me koi change nahi hoga. History alag keys me save hoti hai:
-`stetQuizHistory` (STET) aur `tre40QuizHistory` (TRE); `examSwitcherChoice`
-me sirf aakhri chuna gaya exam tab save hota hai, koi score nahi.
+**Scoring is configurable:** in `app.js`, `EXAMS.tre40.negativeMarking`
+defaults to `0` (no negative marking for a wrong answer). Only when BPSC
+confirms it should this one value be changed to `-1/3` — no change to the
+shared scoring code. History is saved under separate keys:
+`stetQuizHistory` (STET) and `tre40QuizHistory` (TRE); `examSwitcherChoice`
+stores only the last selected exam tab, no score.
 
-**TRE questions kaise add karein:** `tre40-questions-b.json` array ke ant me (aur file size badhne par a/b balance rakhein)
-STET wali hi schema ke items append karo (4 options, `answer` 0–3,
-`explanation`, `subject` Inorganic/Organic/Physical, `topic`). Har subject
-ke kam se kam 10 questions add karo, duplicate/near-duplicate mat daalo
-(STET bank se bhi cross-check kar lo), aur koi invented PYQ/weightage
-claim mat likho. "(Advanced PG-extension)" tag wale topics single
-secondary source se hain — confirmation pending hai, isliye unhe core
-syllabus claim ke roop me mat likho.
+**How to add TRE questions:** append items with the same schema as STET
+to the end of the `tre40-questions-b.json` array (and keep the a/b balance
+as file size grows) — 4 options, `answer` 0–3, `explanation`, `subject`
+Inorganic/Organic/Physical, `topic`. Add at least 10 questions for each
+subject, do not add duplicates/near-duplicates (also cross-check against
+the STET bank), and do not write any invented PYQ/weightage claim.
+Topics tagged "(Advanced PG-extension)" come from a single secondary
+source — confirmation is pending, so do not present them as core syllabus
+claims.
