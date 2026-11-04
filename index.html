@@ -124,6 +124,14 @@
       </div>
     </section>
 
+    <section aria-labelledby="inventoryHeadingStet" id="inventorySectionStet" hidden>
+      <div class="section-head">
+        <h2 id="inventoryHeadingStet">Question Inventory</h2>
+        <p class="muted" id="inventoryStats"></p>
+      </div>
+      <div class="inventory-list" id="inventoryList"></div>
+    </section>
+
     <section aria-labelledby="prevHeadingStet">
       <div class="section-head">
         <h2 id="prevHeadingStet">Previous Days</h2>
@@ -146,7 +154,7 @@
     <section class="card how" aria-label="How it works">
       <h2>How does it work?</h2>
       <ol class="steps">
-        <li><strong>A new set every day</strong><span>Every day (Asia/Kolkata date), the next 10 + 10 + 10 questions from the bank. When the bank is exhausted, the set cycles again.</span></li>
+        <li><strong>A new set every morning</strong><span>A new 30-question set (10 Inorganic + 10 Organic + 10 Physical) is published every morning, about 05:00 IST. Every published set is saved in the Question Inventory on this page and stays fixed, and sets accumulate into the full series. Dates without a published set use the bank rotation instead.</span></li>
         <li><strong>Answers at the end</strong><span>Correct/incorrect answers are not shown during the test. On submitting, you will get your score, accuracy, time taken and an explanation for every question.</span></li>
         <li><strong>Palette and timer</strong><span>Use the palette to go to any question and mark questions for review. Your answer is saved as soon as you select it. The daily test has 45 minutes; when time runs out, the test submits automatically.</span></li>
       </ol>
@@ -237,6 +245,14 @@
       </div>
     </section>
 
+    <section aria-labelledby="inventoryHeadingTre40" id="inventorySectionTre40" hidden>
+      <div class="section-head">
+        <h2 id="inventoryHeadingTre40">Question Inventory</h2>
+        <p class="muted" id="tre40InventoryStats"></p>
+      </div>
+      <div class="inventory-list" id="tre40InventoryList"></div>
+    </section>
+
     <section aria-labelledby="prevHeadingTre40">
       <div class="section-head">
         <h2 id="prevHeadingTre40">Previous Days</h2>
@@ -260,7 +276,7 @@
       <h2>How does it work?</h2>
       <p class="note-box">Syllabus map: a fallback created from the BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum; it still needs to be verified against the TRE 4.0 (Advt. 14/2026) detailed notification. The pattern (Prelims/Mains / negative marking) may change.</p>
       <ol class="steps">
-        <li><strong>A new set every day</strong><span>Every day (Asia/Kolkata date), the next 10 + 10 + 10 questions from the bank. This set covers Subject (Part III) Chemistry only.</span></li>
+        <li><strong>A new set every morning</strong><span>A new 30-question set (10 Inorganic + 10 Organic + 10 Physical) is published every morning, about 05:00 IST. Every published set is saved in the Question Inventory on this page and stays fixed, and sets accumulate into the full series. Dates without a published set use the bank rotation instead. This set covers Subject (Part III) Chemistry only.</span></li>
         <li><strong>Answers at the end</strong><span>Correct/incorrect answers are not shown during the test. On submitting, you will get your score, accuracy, time taken and an explanation for every question. Negative marking is still to be verified &mdash; until then, there is no negative marking for wrong answers.</span></li>
         <li><strong>Palette and timer</strong><span>Use the palette to go to any question and mark questions for review. Your answer is saved as soon as you select it. Practice tests have a 45-minute timer; when time runs out, the test submits automatically.</span></li>
       </ol>
@@ -282,10 +298,8 @@
     <div class="quiz-head">
       <div class="quiz-head-main">
         <h1 id="quizTitle" tabindex="-1">Daily Test</h1>
-        <p class="muted" id="quizMeta"></p>
         <p class="progress-counts" id="progressCounts"></p>
         <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progressBar"></div></div>
-        <p class="muted small" id="quizExamWrap"><span class="chip chip-exam" id="quizExam"></span></p>
       </div>
       <div class="quiz-head-side">
         <div class="timer-box">
@@ -296,6 +310,10 @@
         <button type="button" class="btn btn-outline btn-palette-toggle" id="btnPaletteToggle" aria-expanded="false" aria-controls="paletteCard">Questions</button>
         <button type="button" class="btn btn-outline" id="btnSubmitTop">Submit Test</button>
       </div>
+    </div>
+    <div class="quiz-summary">
+      <p class="muted" id="quizMeta"></p>
+      <p class="muted small" id="quizExamWrap"><span class="chip chip-exam" id="quizExam"></span></p>
     </div>
 
     <div class="quiz-layout" id="quizLayout">
@@ -411,7 +429,7 @@
 
 <footer class="footer">
   <div class="wrap">
-    <p>Bihar STET Paper 2 Chemistry &mdash; Daily Practice. No login, no backend. Questions are in <code>questions.json</code>.</p>
+    <p>Bihar STET Paper 2 Chemistry &mdash; Daily Practice. No login, no backend. Questions are in <code>questions-a.json</code> and <code>questions-b.json</code>.</p>
     <p>BPSC TRE 4.0 &mdash; Chemistry (Classes 11&ndash;12) &mdash; Daily Practice. Beta &mdash; syllabus unverified. TRE questions are in <code>tre40-questions-a.json</code> and <code>tre40-questions-b.json</code>. Subject (Part III) Chemistry only &mdash; Language and General Studies are not in this bank. Syllabus map: a fallback created from the BPSC TRE framework (Bihar Teacher Rules, 2023) + SCERT/NCERT Higher Secondary curriculum; it still needs to be verified against the TRE 4.0 (Advt. 14/2026) detailed notification. The pattern (Prelims/Mains / negative marking) may change.</p>
   </div>
 </footer>

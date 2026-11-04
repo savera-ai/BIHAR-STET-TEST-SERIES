@@ -13,8 +13,13 @@
    the full review (correct answers + explanations) is only on the
    result screen. Scores are kept in localStorage only.
    Two banks share one quiz/result flow: Bihar STET Paper 2 Chemistry
-   (questions.json, stetQuizHistory) and BPSC TRE 4.0 — Chemistry
-   (Classes 11-12) (tre40-questions-a/b.json, tre40QuizHistory). The TRE
+   (questions-a/b.json, stetQuizHistory) and BPSC TRE 4.0 — Chemistry
+   (Classes 11-12) (tre40-questions-a/b.json, tre40QuizHistory). Daily
+   sets saved in daily-sets.json (the Question Inventory manifest) are
+   frozen: resolveDailySet returns a manifest set by id when one exists
+   for a date, and otherwise falls back to the sliding-window rotation
+   over the frozen rotation base (the first 188 STET / first 210 TRE
+   questions), so past rotation dates replay exactly as before. The TRE
    bank is Subject (Part III) Chemistry only; Language and General
    Studies are not in it. TRE syllabus/pattern facts are unverified:
    the TRE section is labelled as a fallback (Bihar Teacher Rules
@@ -43,7 +48,9 @@ const EXAMS = {
     mark: "ST",
     brandTitle: "Bihar STET Chemistry",
     brandSub: "Paper 2 · Classes 11–12 · Daily Practice",
-    file: "questions.json",
+    // Split into two files so each stays under the Vercel single-file
+    // upload argument limit; together they are the full bank.
+    files: ["questions-a.json", "questions-b.json"],
     historyKey: "stetQuizHistory",
     subjects: ["Inorganic", "Organic", "Physical"],
     todayLineId: "todayLine",
@@ -92,6 +99,16 @@ let BANK_STATE = {
   tre40: { loading: false, failed: false, attempted: false, promise: null }
 };
 let CURRENT_EXAM = "stet";
+/* Frozen rotation base: rotation dates without a manifest entry replay
+   over the first 188 STET / first 210 TRE questions in file order only,
+   so later bank growth never changes a past rotation date's set. */
+const ROTATION_BASE = { stet: 188, tre40: 210 };
+/* Question Inventory manifest (daily-sets.json). Loaded non-fatally:
+   a failed load or parse leaves the manifest empty and daily tests
+   still work via rotation. Normalised shape:
+   { stet: [{date, ids}], tre40: [{date, ids}] }. */
+let MANIFEST = { stet: [], tre40: [] };
+let manifestPromise = null;
 // state: {questions, answers, marked:Set, visited:Set, current, label,
 //         dateStr, exam, totalSeconds, secondsLeft, timerId, startedAt,
 //         done, timerEl, timerBox, optionButtons, palButtons,
@@ -163,18 +180,84 @@ function bySubject(subject, exam) {
   const bank = BANKS[ex] || [];
   return bank.filter((q) => q.subject === subject);
 }
-function pickDaily(dateStr, exam) {
+function pickDaily(dateStr, exam, groupedOverride) {
   const ex = exam || CURRENT_EXAM;
   const dayIndex = dayNumber(dateStr) - EPOCH_DAY;
   const out = [];
   for (const s of EXAMS[ex].subjects) {
-    const list = bySubject(s, ex);
+    const list = groupedOverride ? (groupedOverride[s] || []) : bySubject(s, ex);
     if (!list.length) continue;
     const count = Math.min(10, list.length);
     const start = (((dayIndex * count) % list.length) + list.length) % list.length;
     out.push(...rotate(list, start, count));
   }
   return out;
+}
+/* Frozen rotation base for an exam, grouped by subject in file order. */
+function rotationBaseGrouped(exam) {
+  const ex = exam || CURRENT_EXAM;
+  return groupBank(ex, (BANKS[ex] || []).slice(0, ROTATION_BASE[ex]));
+}
+/* Resolve a date's daily set. A manifest entry for the exam+date wins
+   and returns exactly those questions by id, in manifest id order. If
+   any manifest id is missing from the loaded bank, fall back to the
+   rotation (and warn) rather than starting a partial set. Dates with
+   no manifest entry use pickDaily over the frozen rotation base. */
+function resolveDailySet(dateStr, exam) {
+  const ex = exam || CURRENT_EXAM;
+  const entries = MANIFEST[ex] || [];
+  const entry = entries.find((e) => e && e.date === dateStr);
+  if (entry && Array.isArray(entry.ids) && entry.ids.length) {
+    const byId = new Map((BANKS[ex] || []).map((q) => [q.id, q]));
+    const questions = [];
+    let missing = false;
+    for (const id of entry.ids) {
+      const q = byId.get(id);
+      if (!q) { missing = true; break; }
+      questions.push(q);
+    }
+    if (!missing) return questions;
+    console.warn("Daily set manifest for " + ex + " " + dateStr +
+      " references a question id missing from the loaded bank; falling back to rotation.");
+  }
+  return pickDaily(dateStr, ex, rotationBaseGrouped(ex));
+}
+function normalizeManifest(raw) {
+  const out = { stet: [], tre40: [] };
+  const entries = Array.isArray(raw)
+    ? raw
+    : (raw && typeof raw === "object" ? [].concat(raw.stet || [], raw.tre40 || []) : []);
+  // Legacy flat-array entries carry their exam on the entry itself;
+  // object-format entries are grouped under their exam key, so recover
+  // the exam from the group when the entry has none.
+  const grouped = !Array.isArray(raw) && raw && typeof raw === "object";
+  for (const key of ["stet", "tre40"]) {
+    const list = grouped ? (Array.isArray(raw[key]) ? raw[key] : []) : entries;
+    for (const e of list) {
+      if (!e || typeof e.date !== "string" || !Array.isArray(e.ids)) continue;
+      const exam = e.exam || (grouped ? key : null);
+      if (exam !== key) continue;
+      if (!e.ids.every((id) => typeof id === "string")) continue;
+      out[key].push({ date: e.date, ids: e.ids.slice() });
+    }
+  }
+  return out;
+}
+function loadManifest() {
+  if (manifestPromise) return manifestPromise;
+  manifestPromise = fetchWithTimeout("daily-sets.json").then((raw) => {
+    MANIFEST = normalizeManifest(raw);
+    return MANIFEST;
+  }).catch((reason) => {
+    console.warn("daily-sets.json could not be loaded; daily tests use rotation.", reason);
+    MANIFEST = { stet: [], tre40: [] };
+    return MANIFEST;
+  }).then((m) => {
+    renderInventory("stet");
+    renderInventory("tre40");
+    return m;
+  });
+  return manifestPromise;
 }
 function pickSubject(subject, dateStr, exam) {
   const ex = exam || CURRENT_EXAM;
@@ -256,6 +339,7 @@ function setExam(exam, opts) {
   if (!opts || opts.render !== false) {
     renderCounts(exam);
     renderHistory(exam);
+    renderInventory(exam);
   }
 }
 function renderExamCards() {
@@ -311,6 +395,71 @@ function renderHistory(exam) {
       e.score + "/" + e.total + " (" + Math.round((e.score / e.total) * 100) + "%)");
     list.appendChild(li);
   }
+}
+
+/* ---------- Question Inventory (daily-sets.json manifest) ---------- */
+function renderInventory(exam) {
+  const ex = exam || CURRENT_EXAM;
+  const isTre = ex === "tre40";
+  const statsEl = document.getElementById(isTre ? "tre40InventoryStats" : "inventoryStats");
+  const listEl = document.getElementById(isTre ? "tre40InventoryList" : "inventoryList");
+  const section = document.getElementById(isTre ? "inventorySectionTre40" : "inventorySectionStet");
+  if (!statsEl || !listEl) return;
+  // If the bank failed or has not loaded yet, do not show a broken
+  // inventory: the existing load-error behaviour stays in charge, and
+  // this re-renders when the bank loads (see loadBankForExam).
+  if (BANK_STATE[ex].failed || !BANKS[ex].length) {
+    if (section) section.hidden = true;
+    return;
+  }
+  if (section) section.hidden = false;
+  const entries = (MANIFEST[ex] || []).slice().sort((a, b) =>
+    a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+  const totalIds = entries.reduce((n, e) => n + e.ids.length, 0);
+  statsEl.textContent = BANKS[ex].length + " questions in the bank · " +
+    entries.length + " daily sets saved · " +
+    totalIds + " questions published in daily sets";
+  listEl.innerHTML = "";
+  if (!entries.length) {
+    listEl.appendChild(el("p",
+      "No daily sets have been saved yet. New sets appear here every morning.", "muted"));
+    return;
+  }
+  const history = loadHistory(ex);
+  const today = istTodayStr();
+  const byId = new Map(BANKS[ex].map((q) => [q.id, q]));
+  entries.slice().reverse().forEach((entry, revIdx) => {
+    const setNo = entries.length - revIdx; // chronological: oldest = Set 1
+    const card = document.createElement("article");
+    card.className = "card inventory-card";
+    const head = document.createElement("div");
+    head.className = "inventory-card-head";
+    head.appendChild(el("h3", "Set " + setNo));
+    if (entry.date === today) head.appendChild(el("span", "Today", "badge"));
+    card.appendChild(head);
+    card.appendChild(el("p", prettyDate(entry.date), "muted"));
+    const counts = { Inorganic: 0, Organic: 0, Physical: 0 };
+    let resolved = 0;
+    for (const id of entry.ids) {
+      const q = byId.get(id);
+      if (q) {
+        resolved++;
+        if (counts[q.subject] !== undefined) counts[q.subject]++;
+      }
+    }
+    card.appendChild(el("p", resolved + " questions (Inorganic " + counts.Inorganic +
+      " · Organic " + counts.Organic + " · Physical " + counts.Physical + ")"));
+    const done = history.find((h) => h.dateStr === entry.date && h.total === 30);
+    if (done) card.appendChild(el("p", "Completed: " + done.score + "/30", "muted"));
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "btn btn-outline";
+    btn.textContent = "Start Set " + setNo;
+    btn.setAttribute("data-inventory-date", entry.date);
+    btn.setAttribute("data-inventory-exam", ex);
+    card.appendChild(btn);
+    listEl.appendChild(card);
+  });
 }
 
 /* ---------- bank loading: STET eager, TRE deferred, 8s timeout ---------- */
@@ -369,7 +518,7 @@ function isValidQuestion(q, subjects) {
     typeof q.explanation === "string";
 }
 async function loadBankFile(cfg) {
-  const files = cfg.files || [cfg.file];
+  const files = cfg.files;
   // Fetch parts in parallel; keep every part that loads, and fail only
   // if no part loads at all — one failed TRE file must not discard
   // the questions from the file that did load.
@@ -388,7 +537,7 @@ async function loadBankFile(cfg) {
   if (!data.length) throw lastError || new Error("no valid questions");
   const valid = data.filter((q) => isValidQuestion(q, cfg.subjects));
   if (valid.length !== data.length) {
-    console.warn((cfg.file || cfg.files.join(", ")) + ": dropped " + (data.length - valid.length) + " invalid question(s)");
+    console.warn(cfg.files.join(", ") + ": dropped " + (data.length - valid.length) + " invalid question(s)");
   }
   if (!valid.length) throw new Error("no valid questions");
   return valid;
@@ -412,23 +561,25 @@ function loadBankForExam(exam) {
     if (exam === "tre40") enableTre40Home();
     renderCounts(exam);
     renderHistory(exam);
+    renderInventory(exam);
     renderExamCards();
     refreshLoadNotice();
     return true;
   }).catch((reason) => {
     BANK_ERRORS[exam] = reason;
-    console.error((EXAMS[exam].files || [EXAMS[exam].file]).join(", ") + " load failed:", reason);
+    console.error(EXAMS[exam].files.join(", ") + " load failed:", reason);
     st.loading = false;
     st.failed = true;
     st.promise = null;
     if (exam === "tre40") disableTre40("The TRE 4.0 questions have not loaded yet. You can start a STET test — the TRE section will be back soon.");
     else {
       const line = document.getElementById("todayLine");
-      if (line) line.textContent = "questions.json could not be loaded. Run this site from a local server (see README) — fetch may be blocked from file://.";
+      if (line) line.textContent = "The STET question bank could not be loaded. Run this site from a local server (see README) — fetch may be blocked from file://.";
       const errEl = document.getElementById("stetLoadError");
       if (errEl) errEl.hidden = false;
     }
     renderExamCards();
+    renderInventory(exam);
     refreshLoadNotice();
     return false;
   });
@@ -877,6 +1028,16 @@ function goToQuestion(i) {
   state.visited.add(i);
   renderQuestion();
   renderPalette();
+  // The page may be scrolled down from the previous question. The new
+  // question must land fully below the sticky quiz bar (not under it):
+  // #quizLayout carries a scroll-margin-top derived from the bar's
+  // height, so scrolling it to the top of the viewport clears the bar.
+  // Instant, not smooth: navigation is a jump, and a smooth scroll
+  // would slide the new stem underneath the bar on the way. Mark
+  // toggles and option selection do not go through here, so they
+  // deliberately do not move the scroll position.
+  const layout = document.getElementById("quizLayout");
+  if (layout) layout.scrollIntoView({ behavior: "auto", block: "start" });
   announce("Question " + (i + 1) + " of " + state.questions.length + ".");
 }
 function computeScore(questions, answers, exam) {
@@ -1236,7 +1397,7 @@ function bindControls() {
         if (nav === "daily") {
           const d = istTodayStr();
           withBank(CURRENT_EXAM, () =>
-            startTest(pickDaily(d, CURRENT_EXAM), "Today's Daily Test", d, CURRENT_EXAM));
+            startTest(resolveDailySet(d, CURRENT_EXAM), "Today's Daily Test", d, CURRENT_EXAM));
           return;
         }
         showView("home");
@@ -1257,7 +1418,7 @@ function bindControls() {
 
   // STET home controls.
   document.getElementById("btnStartDaily").addEventListener("click", () =>
-    withBank("stet", () => startTest(pickDaily(today, "stet"), "Today's Daily Test", today, "stet")));
+    withBank("stet", () => startTest(resolveDailySet(today, "stet"), "Today's Daily Test", today, "stet")));
   document.getElementById("btnRandom").addEventListener("click", () =>
     withBank("stet", () => startTest(pickRandom("stet"), "Random Test — 30 Questions", today, "stet")));
   document.getElementById("btnByDate").addEventListener("click", () => {
@@ -1265,7 +1426,7 @@ function bindControls() {
     if (!stetPicker || !stetPicker.value) {
       announce("No date chosen — today's test will start.");
     }
-    withBank("stet", () => startTest(pickDaily(d, "stet"), "Practice Test — " + prettyDate(d), d, "stet"));
+    withBank("stet", () => startTest(resolveDailySet(d, "stet"), "Practice Test — " + prettyDate(d), d, "stet"));
   });
   document.querySelectorAll("[data-practice]").forEach((b) =>
     b.addEventListener("click", () => {
@@ -1275,7 +1436,7 @@ function bindControls() {
 
   // TRE home controls.
   document.getElementById("btnTre40StartDaily").addEventListener("click", () =>
-    withBank("tre40", () => startTest(pickDaily(today, "tre40"), "Today's Daily Test", today, "tre40")));
+    withBank("tre40", () => startTest(resolveDailySet(today, "tre40"), "Today's Daily Test", today, "tre40")));
   document.getElementById("btnTre40Random").addEventListener("click", () =>
     withBank("tre40", () => startTest(pickRandom("tre40"), "Random Test — 30 Questions", today, "tre40")));
   document.getElementById("btnTre40ByDate").addEventListener("click", () => {
@@ -1283,13 +1444,22 @@ function bindControls() {
     if (!trePicker || !trePicker.value) {
       announce("No date chosen — today's test will start.");
     }
-    withBank("tre40", () => startTest(pickDaily(d, "tre40"), "Practice Test — " + prettyDate(d), d, "tre40"));
+    withBank("tre40", () => startTest(resolveDailySet(d, "tre40"), "Practice Test — " + prettyDate(d), d, "tre40"));
   });
   document.querySelectorAll("[data-practice-tre40]").forEach((b) =>
     b.addEventListener("click", () => {
       const s = b.getAttribute("data-practice-tre40");
       withBank("tre40", () => startTest(pickSubject(s, today, "tre40"), s + " Practice — 20 Questions", today, "tre40"));
     }));
+
+  // Question Inventory: delegated Start buttons (re-rendered lists).
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-inventory-date]");
+    if (!btn) return;
+    const d = btn.getAttribute("data-inventory-date");
+    const ex = btn.getAttribute("data-inventory-exam") || CURRENT_EXAM;
+    withBank(ex, () => startTest(resolveDailySet(d, ex), "Daily Test — " + prettyDate(d), d, ex));
+  });
 
   // Retry controls for failed bank loads.
   document.getElementById("btnRetryStet").addEventListener("click", () => reloadBank("stet"));
@@ -1480,8 +1650,11 @@ async function init() {
   renderExamCards();
 
   // STET loads eagerly. TRE loads only when first needed: the TRE tab
-  // or a TRE button, or a saved TRE choice being restored.
+  // or a TRE button, or a saved TRE choice being restored. The manifest
+  // loads alongside, non-fatally: daily tests still work via rotation
+  // if it fails, and the inventory shows its empty state.
   const stetLoad = loadBankForExam("stet");
+  const manifestLoad = loadManifest();
   let saved = null;
   try { saved = localStorage.getItem(EXAM_CHOICE_KEY); } catch (e) { saved = null; }
   const wantTre = saved === "tre40";
@@ -1492,7 +1665,10 @@ async function init() {
   setExam(initial, { render: false });
   renderHistory("stet");
   renderHistory("tre40");
+  renderInventory("stet");
+  renderInventory("tre40");
   renderExamCards();
+  await manifestLoad;
   if (BANK_STATE.tre40.failed && initial === "stet") {
     // The TRE tab is already disabled by disableTre40; keep the STET
     // home visible with the failure notice.
